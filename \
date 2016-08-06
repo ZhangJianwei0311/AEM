@@ -1,0 +1,40 @@
+#!/bin/sh
+
+corpus=wiki
+chooseK=(100 200 300 400 500)
+minibatch=1024
+alpha=0.01
+beta=0.01
+index=0
+#re compile
+make clean
+make all
+
+for nowK in a b c d e; do
+    echo 'now train corpus when k = '${chooseK[$index]}'\n'
+    #now delete the previous record
+    rm *txt
+    #train model
+    ./OBP ../LDA_dataset_90_10/${corpus}_train.txt  ${chooseK[$index]} ${minibatch} 1 1 0.000001 ${alpha} ${beta} 1
+    #test model
+    ./OBP_predict ../LDA_dataset_90_10/${corpus}_test.txt ${chooseK[$index]} ${alpha} ${beta} 1 400
+    let index+=1;
+done
+
+rm *txt
+chooseBatch=(256 512 1024 2048 4096)
+let index=0
+
+make clean
+make all
+
+for nowB in a b c d e; do
+    echo 'now train corpus when minibatch = '${chooseBatch[$index]}
+    #now delete the previous record
+    rm *txt
+    #train model
+    ./OBP ../LDA_dataset_90_10/${corpus}_train.txt  ${chooseK[2]} ${chooseBatch[$index]} 1 1 0.000001 ${alpha} ${beta} 1
+    #test model
+    ./OBP_predict ../LDA_dataset_90_10/${corpus}_test.txt ${chooseK[2]} ${alpha}  ${beta} 1 400
+    let index+=1;
+done

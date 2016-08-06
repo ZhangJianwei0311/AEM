@@ -1,0 +1,44 @@
+A NEW ADAPTIVE EXPECTATION MAXIMIZATION ALGORITHM
+
+You will need to install G++ in linux environment.
+
+===========================================================================
+ 			QUICK START OF AEM 
+===========================================================================
+
+usage:
+To make file:
+	make all
+To run:
+	./AEM data_dir topic_num minibatch_size TD TK alpha beta random_seed
+
+	Parameters Explanation:
+	=======================================================================
+	data_dir: the data's address
+	topic_num:the topic num
+	minibatch_size:size which is used to cut data into multiple minibatches
+	TD: residuals rate in the part of documents
+	TK: residuals rate in the part of topics(the usage you can find in the reference paper)
+	alpha,beta:LDA parameters
+	========================================================================
+
+	For example:
+	./AEM dataset/wiki.txt 100 1024 1 0.5 0.01 0.01 1
+	
+To clean:
+	make clean
+
+
+===========================================================================
+			    Input Data Format
+===========================================================================
+First line is the description of the data:
+<document_num> <vocabulary_size> <NNZ(nonzeros in document-word matrix)>
+
+next lines are the documents and every line is a document.
+format of every line:
+<wordId> <count> <wordId> <count> <wordId> <count> <wordId> <count> ........
+
+
+reference paper:
+Jianwei Zhang, Jia Zeng, Mingxuan Yuan, Weixiong Rao and Jianfeng Yan.LDA Revisited: Entropy, Prior and Convergence.In CIKM 2016
